@@ -19,7 +19,6 @@ public:
     bool keysProcessed[1024];
     bool mouse[3];
     bool mouseProcessed[3];
-    //struct CursorPos { double x; double y; };
     Vec2i cursorPos;
     MouseMode mouseMode;
 

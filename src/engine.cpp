@@ -29,9 +29,7 @@ Engine::~Engine()
 
 void Engine::init()
 {
-    //float aspectRatio = static_cast<float>(this->width) / static_cast<float>(this->height);
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->width), static_cast<float>(this->height), 0.0f, -1.0f, 1.0f);
-    float aspect = static_cast<float>(this->width)*1.0f/static_cast<float>(this->height);
 
     Shader squareShader = loadShaderFromFile("C:\\dev\\path_finder\\shaders\\square.vert", "C:\\dev\\path_finder\\shaders\\square.frag", nullptr);
     squareShader.SetMatrix4("projection", projection, true);
