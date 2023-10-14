@@ -1,0 +1,7 @@
+build/
+.vscode/
+external/
+
+# Dumb mac.
+.DS_Store
+.history
