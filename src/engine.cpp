@@ -108,7 +108,6 @@ void Engine::processInput(float dt)
 
             // Color the path.
             for (auto &coord : path) {
-                std::cout << coord.x << ", " << coord.y << std::endl;
                 Square *sqr = grid->at(coord.x, coord.y);
                 if (sqr->type == AIR)
                     sqr->type = PATH;
