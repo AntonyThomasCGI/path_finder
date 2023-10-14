@@ -50,6 +50,16 @@ Square* Grid::at(int x, int y)
 }
 
 
+void Grid::clearPath()
+{
+    for (int i = 0; i < height; i++ ) {
+        for (int j = 0; j < width; j++ ) {
+            if (grid[i][j]->type == PATH)
+                grid[i][j]-> type = AIR;
+        }
+    }
+}
+
 void Grid::render(SquareRenderer &renderer)
 {
     for (int i = 0; i < height; i++ ) {

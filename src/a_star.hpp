@@ -6,8 +6,12 @@
 
 #include "common.hpp"
 #include "square.hpp"
+#include "grid.hpp"
 
 
+// A star implementation based on: https://github.com/daancode/a-star
+namespace AStar
+{
 struct Node
 {
     unsigned int g, h;
@@ -32,19 +36,17 @@ class Generator
     void releaseNodes(NodeSet &nodes_);
 public:
     Generator();
-    void setWorldSize(Vec2i worldSize_);
     void setDiagonalMovement(bool enable_);
     void setHeuristic(HeuristicFunction heuristic_);
 
     CoordinateList findPath(Vec2i source_, Vec2i target_);
-    void addCollision(Vec2i coords_);
-    void removeCollision(Vec2i coords_);
-    void clearCollisions();
+
+    void setGrid(Grid *grid_);
 
 private:
     HeuristicFunction heuristic;
-    CoordinateList direction, walls;
-    Vec2i worldSize;
+    CoordinateList direction;
+    Grid *grid;
     unsigned int directions;
 };
 
@@ -59,5 +61,6 @@ public:
     static unsigned int octagonal(Vec2i source_, Vec2i target_);
 };
 
+}
 
 #endif

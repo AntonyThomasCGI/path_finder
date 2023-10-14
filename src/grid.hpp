@@ -59,10 +59,11 @@ public:
     Grid(unsigned int height_, unsigned int width_);
     ~Grid();
 
-    Square* squareAtScreenPos(int x, int y);
     void render(SquareRenderer &renderer);
 
+    Square* squareAtScreenPos(int x, int y);
     Square* at(int x, int y);
+    void clearPath();
 private:
     Square* **grid;
 };

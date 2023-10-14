@@ -97,29 +97,25 @@ void Engine::processInput(float dt)
     }
     if (this->keys[GLFW_KEY_SPACE] && !this->keysProcessed[GLFW_KEY_SPACE])
     {
-        Generator gen;
-        gen.setWorldSize({(int)grid->width, (int)grid->height});
-        gen.setHeuristic(Heuristic::euclidean);
-        for (int i = 0; i < grid->height; i++) {
-            for (int j = 0; j < grid->width; j++) {
-                Square *sqr = grid->at(j, i);
-                if (sqr->type == WALL)
-                    gen.addCollision({j, i});
-                if (sqr->type == PATH)
-                    sqr->type = AIR;  // Clear previous path.
+        // Clear any previous path tiles.
+        grid->clearPath();
+        if (!this->keys[GLFW_KEY_LEFT_SHIFT])
+        {
+            // Do new a* search.
+            AStar::Generator gen;
+            gen.setHeuristic(AStar::Heuristic::euclidean);
+            gen.setGrid(grid);
+
+            auto path = gen.findPath(grid->start->coords, grid->end->coords);
+
+            // Color the path.
+            for (auto &coord : path) {
+                std::cout << coord.x << ", " << coord.y << std::endl;
+                Square *sqr = grid->at(coord.x, coord.y);
+                if (sqr->type == AIR)
+                    sqr->type = PATH;
             }
         }
-
-        auto path = gen.findPath(grid->start->coords, grid->end->coords);
-
-        //std::cout << "result:" << std::endl;
-        for (auto &coord : path) {
-            Square *sqr = grid->at(coord.x, coord.y);
-            if (sqr->type == AIR)
-                sqr->type = PATH;
-            //std::cout << coord.x << ", " << coord.y << std::endl;
-        }
-
         this->keysProcessed[GLFW_KEY_SPACE] = true;
     }
 };
