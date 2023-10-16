@@ -29,6 +29,10 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    // Required for mac
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
     // Create the window
     GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "path finder", NULL, NULL);
@@ -46,7 +50,17 @@ int main() {
     glfwSetCursorPosCallback(window, cursorPositionCallback);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
+#ifdef __APPLE__
+    // Mac does not play nice with fixed resolution windows, just query the width height instead.
+    int initial_fb_width, initial_fb_height;
+    glfwGetFramebufferSize(window, &initial_fb_width, &initial_fb_height);
+    engine.width = initial_fb_width;
+    engine.height = initial_fb_height;
+    glViewport(0, 0, initial_fb_width, initial_fb_height);
+#else
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+#endif
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -129,6 +143,12 @@ static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
         engine.mouseProcessed[GLFW_MOUSE_BUTTON_LEFT] = false;
     }
 
+#ifdef __APPLE__
+    // Some more fuckery for mac.
+    engine.cursorPos.x = xpos * 2;
+    engine.cursorPos.y = ypos * 2;
+#else
     engine.cursorPos.x = xpos;
     engine.cursorPos.y = ypos;
+#endif
 }

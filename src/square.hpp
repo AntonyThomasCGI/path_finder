@@ -28,7 +28,7 @@ public:
     Square(Vec2i coords_, SquareType type_ = AIR);
     ~Square();
 
-    void Square::draw(SquareRenderer &renderer);
+    void draw(SquareRenderer &renderer);
 };
 
 

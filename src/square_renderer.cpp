@@ -3,6 +3,8 @@
 
 #include "square_renderer.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 
 SquareRenderer::SquareRenderer(Shader &shader_)
     : shader(shader_)

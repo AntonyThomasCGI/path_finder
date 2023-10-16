@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "a_star.hpp"
 #include "engine.hpp"
@@ -31,7 +32,12 @@ void Engine::init()
 {
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->width), static_cast<float>(this->height), 0.0f, -1.0f, 1.0f);
 
+    // TODO, file system manager. For now hardcode some paths.
+#ifdef __APPLE__
+    Shader squareShader = loadShaderFromFile("/Users/antonyt/dev/path_finder/shaders/square.vert", "/Users/antonyt/dev/path_finder/shaders/square.frag", nullptr);
+#else
     Shader squareShader = loadShaderFromFile("C:\\dev\\path_finder\\shaders\\square.vert", "C:\\dev\\path_finder\\shaders\\square.frag", nullptr);
+#endif
     squareShader.SetMatrix4("projection", projection, true);
 
     renderer = new SquareRenderer(squareShader);
